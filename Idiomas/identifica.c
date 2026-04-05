@@ -2,9 +2,9 @@
  A saída é o idioma da frase de entrada.
 */
 
-// Carol Hiroko Yamada / RA: 10741647
+// Carolina Hiroko Yamada / RA: 10741647
 // Catarina Silva e Meirelles / RA: 10239324
-//João Pedro Mazzante Alvarez / RA: 10723837
+// João Pedro Mazzante Alvarez / RA: 10723837
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -108,27 +108,54 @@ void verificaQnt(char frase[], int freq[]) {
         return 3;
     }
 
-    return -1;//nenhum idioma identificado
+    return -1; // Nenhum idioma identificado
 }
 
 int main () {
     char frase[256];
     int freq[26];
-    printf("Digite uma frase(em inglês, português ou esperanto): ");
+    printf("Digite uma frase (em inglês, português ou esperanto): ");
     scanf("%[^\n]", frase); // Lê a frase até a quebra de linha
 
+    // Para contar apenas as letras válidas de A até Z
     int tamanho = 0;
     for (int i = 0; frase[i] != '\0'; i++) {
-        if (frase[i] == ' ') {
-            tamanho++;
+        if ((unsigned char)frase[i] <= 127) {
+            char c = tolower(frase[i]);
+            if (c >= 'a' && c <= 'z') {
+                tamanho++;
+            }
         }
     }
+
     tamanho++; // Adiciona 1 para contar a última palavra
 
-    //Coloca taxa de erro em 0.10 para 10%, para não ocorrer erros em frases curtas
+    float taxaErro = 0.10; // Coloca taxa de erro em 0.10 para 10%, para não ocorrer erros em frases curtas
+
+    verificaQnt(frase, freq); // Chamada da função para contar a quantidade de vezes que cada letra aparece na frase
+ 
+    int resultado = compara(freq, tamanho, taxaErro, frase); // Chamada da função que identifica o idioma da frase
 
     printf("Frase: %s\n", frase);
-    //chamar funções!
-    printf("O idioma da frase é: ...\n"); // Aqui deve ser a lógica para identificar o idioma
-    return 0;
-}
+ 
+    printf("O idioma da frase é: ...\n");
+
+    // Switch case para decidir o que será printado de acordo com o retorno
+    switch (resultado) {
+          case 1:
+              printf("Português.\n");
+              break;
+          case 2:
+              printf("Inglês.\n");
+              break;
+          case 3:
+              printf("Esperanto.\n");
+              break;
+          case -1:
+          default:
+              printf("Erro! Idioma não identificado.\n");
+              break;
+      }
+  
+      return 0;
+  }
