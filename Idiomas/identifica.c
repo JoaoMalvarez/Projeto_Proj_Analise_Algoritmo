@@ -125,9 +125,7 @@ int main () {
     }
     tamanho++; // Adiciona 1 para contar a última palavra
 
-    //Coloca taxa de erro em 0.15 para 15%, para não ocorrer erros em frases curtas
-
-    //aqui vamos voltar pra fazer o codigo
+    //Coloca taxa de erro em 0.10 para 10%, para não ocorrer erros em frases curtas
 
     printf("Frase: %s\n", frase);
     //chamar funções!
