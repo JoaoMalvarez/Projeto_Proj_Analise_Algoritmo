@@ -1,6 +1,5 @@
-/* A entrada é via teclado de uma frase em um dos dois idiomas.
+/* A entrada é via teclado de uma frase em um dos três idiomas.
  A saída é o idioma da frase de entrada.
- Comente e idente seu programa.
 */
 
 // Carol Hiroko Yamada / RA: 10741647
@@ -9,16 +8,32 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h> //para strlen
 
-int verificaQnt(char frase[]) {
-    // Vai separar a frase em vetor e contar a quantidade de palavras
-    // com return de freq[], que é o vetor que vai dar ser: freq[0] = qntd de a ...
-    // até freq[25] = qntd de z
+void verificaQnt(char frase[], int freq[]) {
+    // Inicializa o vetor com zeros
+    for (int i = 0; i < 26; i++) freq[i] = 0;
+
+    for (int i = 0; frase[i] != '\0'; i++) {
+        // Se o bit mais significativo for 1, é um caractere especial (UTF-8), mas estamos trabalhando apenas com os 26 da ASCII
+        //ignora qualquer caractere que não esteja na tabela ASCII padrão (que vai de 0 a 127).(ou seja, todos os caracteres acentuados)
+        if ((unsigned char)frase[i] > 127) {
+            continue; 
+        }
+
+        char letra = tolower(frase[i]);
+        if (letra >= 'a' && letra <= 'z') {
+            freq[letra - 'a']++;
+        //Como os caracteres na tabela ASCII são sequenciais:
+        //Se a letra for 'a': 'a' - 'a' = $97 - 97 = 0$ (Índice 0)
+        //Se a letra for 'b': 'b' - 'a' = $98 - 97 = 1$ (Índice 1)
+        //Se a letra for 'z': 'z' - 'a' = $122 - 97 = 25$ (Índice 25)
+    }
 }
 
-char* compara(int freq[], int tamanho, float taxaErro, char frase[]) {
-    if (tamanho == 0)
-        return "Erro: Frase vazia";
+ int compara(int freq[], int tamanho, float taxaErro, char frase[]) {
+    if (tamanho == 0) return -1;
     
     float freqN[26];
     for (int i = 0; i < 26; i++) {
@@ -57,9 +72,12 @@ char* compara(int freq[], int tamanho, float taxaErro, char frase[]) {
             ing = -200;
         if (probEsp[i] == 0 && freqN[i] != 0)
             esp = -200;
+    }
 
         // Regra de inclusão (para letras duplas que só tem em uma língua, como o "ll" do inglês, ou o "rr" do português)
         // Transforma para minúsculo para facilitar a busca
+    int len = strlen(frase);
+    for (int i = 0; i < len - 1; i++) {//parando um antes do último caractere, pois olha para o próximo
         char c1 = tolower(frase[i]);
         char c2 = tolower(frase[i+1]);
 
@@ -81,21 +99,22 @@ char* compara(int freq[], int tamanho, float taxaErro, char frase[]) {
 
     // Retorno do idioma com mais pontos, ou mensagem de erro se nenhum for identificado
     if (pt > ing && pt > esp) {
-        return "Portugues";
+        return 1;
     }
     if (ing > pt && ing > esp) {
-        return "Ingles";
+        return 2;
     }
     if (esp > pt && esp > ing) {
-        return "Esperanto";
+        return 3;
     }
 
-    return "Nenhum idioma identificado / Erro";
+    return -1;//nenhum idioma identificado
 }
 
 int main () {
+    char frase[256];
+    int freq[26];
     printf("Digite uma frase(em inglês, português ou esperanto): ");
-    char frase[100];
     scanf("%[^\n]", frase); // Lê a frase até a quebra de linha
 
     int tamanho = 0;
@@ -111,6 +130,7 @@ int main () {
     //aqui vamos voltar pra fazer o codigo
 
     printf("Frase: %s\n", frase);
+    //chamar funções!
     printf("O idioma da frase é: ...\n"); // Aqui deve ser a lógica para identificar o idioma
     return 0;
 }
