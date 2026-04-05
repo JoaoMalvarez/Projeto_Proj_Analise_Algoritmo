@@ -29,7 +29,8 @@ void verificaQnt(char frase[], int freq[]) {
         //Se a letra for 'a': 'a' - 'a' = $97 - 97 = 0$ (Índice 0)
         //Se a letra for 'b': 'b' - 'a' = $98 - 97 = 1$ (Índice 1)
         //Se a letra for 'z': 'z' - 'a' = $122 - 97 = 25$ (Índice 25)
-    }
+        }
+   }
 }
 
  int compara(int freq[], int tamanho, float taxaErro, char frase[]) {
