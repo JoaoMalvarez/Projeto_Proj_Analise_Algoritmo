@@ -136,10 +136,10 @@ int main () {
         taxaErro = 1.0 / sqrt(tamanho); // Maior a frase = menor o erro
     }
     if (taxaErro > 0.15) { 
-        taxaErro = 0.15; // Para frases curtas
+        taxaErro = 0.15; // Para frases curtas a taxa é maior
     }
     if (taxaErro > 0.02) {
-        taxaErro = 0.02; // Para frases longas
+        taxaErro = 0.02; // Para frases longas a taxa é menor
     }
  
     verificaQnt(frase, freq); // Chamada da função para contar a quantidade de vezes que cada letra aparece na frase
