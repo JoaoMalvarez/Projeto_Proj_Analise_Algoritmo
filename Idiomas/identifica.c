@@ -106,8 +106,6 @@ int main () {
         }
     }
 
-    tamanho++; // Adiciona 1 para contar a última palavra
-
     // Calcula a taxa de erro
     // Diminui de acordo com a quantidade de letras
  
