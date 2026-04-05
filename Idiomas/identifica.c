@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <string.h> //para strlen
+#include <string.h> // para strlen
+#include <math.h> // para cálculo da taxaErro
 
 void verificaQnt(char frase[], int freq[]) {
     // Inicializa o vetor com zeros
@@ -130,8 +131,17 @@ int main () {
 
     tamanho++; // Adiciona 1 para contar a última palavra
 
-    float taxaErro = 0.10; // Coloca taxa de erro em 0.10 para 10%, para não ocorrer erros em frases curtas
-
+    float taxaErro;
+    if (tamanho > 0) { 
+        taxaErro = 1.0 / sqrt(tamanho); // Maior a frase = menor o erro
+    }
+    if (taxaErro > 0.15) { 
+        taxaErro = 0.15; // Para frases curtas
+    }
+    if (taxaErro > 0.02) {
+        taxaErro = 0.02; // Para frases longas
+    }
+ 
     verificaQnt(frase, freq); // Chamada da função para contar a quantidade de vezes que cada letra aparece na frase
  
     int resultado = compara(freq, tamanho, taxaErro, frase); // Chamada da função que identifica o idioma da frase
@@ -142,20 +152,20 @@ int main () {
 
     // Switch case para decidir o que será printado de acordo com o retorno
     switch (resultado) {
-          case 1:
-              printf("Português.\n");
-              break;
-          case 2:
-              printf("Inglês.\n");
-              break;
-          case 3:
-              printf("Esperanto.\n");
-              break;
-          case -1:
-          default:
-              printf("Erro! Idioma não identificado.\n");
-              break;
-      }
+        case 1:
+            printf("Português.\n");
+            break;
+        case 2:
+            printf("Inglês.\n");
+            break;
+        case 3:
+            printf("Esperanto.\n");
+            break;
+        case -1:
+        default:
+            printf("Erro! Idioma não identificado.\n");
+            break;
+    }
   
-      return 0;
-  }
+    return 0;
+}
