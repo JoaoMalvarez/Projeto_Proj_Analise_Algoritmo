@@ -113,7 +113,7 @@ int main () {
  
     float taxaErro;
  
-    if (tamanho > 0 && tamanho <= 10) taxaErro = 0.15; // Menos letras = maior taxa
+    if (tamanho > 0 && tamanho <= 10) taxaErro = 0.2; // Menos letras = maior taxa
     if (tamanho > 10 && tamanho <= 40) taxaErro = 0.1;
     if (tamanho > 40) taxaErro = 0.05; // Mais letras = menor taxa
  
