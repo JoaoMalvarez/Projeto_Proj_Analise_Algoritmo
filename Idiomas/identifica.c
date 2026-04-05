@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h> // para strlen
-#include <math.h> // para cálculo da taxaErro
 
 void verificaQnt(char frase[], int freq[]) {
     // Inicializa o vetor com zeros
@@ -75,29 +74,6 @@ void verificaQnt(char frase[], int freq[]) {
             esp = -200;
     }
 
-        // Regra de inclusão (para letras duplas que só tem em uma língua, como o "ll" do inglês, ou o "rr" do português)
-        // Transforma para minúsculo para facilitar a busca
-    int len = strlen(frase);
-    for (int i = 0; i < len - 1; i++) {//parando um antes do último caractere, pois olha para o próximo
-        char c1 = tolower(frase[i]);
-        char c2 = tolower(frase[i+1]);
-
-        // Inglês:  "ll", "th", "wh", "sh", "ee", "oo", "ck" (duplas mais frequentes no inglês)
-        if (c1 == 'l' && c2 == 'l' || c1 == 't' && c2 == 'h' || c1 == 'w' && c2 == 'h' || c1 == 's' && c2 == 'h' || c1 == 'e' && c2 == 'e' || c1 == 'o' && c2 == 'o' || c1 == 'c' && c2 == 'k') {
-            ing += 2; // Dá um bônus de 2 pontos para o Inglês
-        }
-
-        // Português: "lh", "nh", "qu", "rr", "ss" (duplas mais frequentes no português)
-        if ((c1 == 'l' && c2 == 'h') || (c1 == 'n' && c2 == 'h') || (c1 == 'q' && c2 == 'u') || (c1 == 'r' && c2 == 'r') || (c1 == 's' && c2 == 's')) {
-            pt += 2;
-        }
-
-        // Esperanto: "kv", "oj", "aj", "uj", "sc", "gv" (duplas mais frequentes no esperanto)
-        if (c1 == 'k' && c2 == 'v' || c1 == 'o' && c2 == 'j' || c1 == 'a' && c2 == 'j' || c1 == 'u' && c2 == 'j' || c1 == 's' && c2 == 'c' || c1 == 'g' && c2 == 'v') {
-            esp += 2;
-        }    
-    }
-
     // Retorno do idioma com mais pontos, ou mensagem de erro se nenhum for identificado
     if (pt > ing && pt > esp) {
         return 1;
@@ -132,15 +108,10 @@ int main () {
     tamanho++; // Adiciona 1 para contar a última palavra
 
     float taxaErro;
-    if (tamanho > 0) { 
-        taxaErro = 1.0 / sqrt(tamanho); // Maior a frase = menor o erro
-    }
-    if (taxaErro > 0.15) { 
-        taxaErro = 0.15; // Para frases curtas a taxa é maior
-    }
-    if (taxaErro > 0.02) {
-        taxaErro = 0.02; // Para frases longas a taxa é menor
-    }
+ 
+    if (tamanho > 0 && tamanho <= 10) taxaErro = 0.15;
+    if (tamanho > 10 && tamanho <= 40) taxaErro = 0.1;
+    if (tamanho > 40) taxaErro = 0.05;
  
     verificaQnt(frase, freq); // Chamada da função para contar a quantidade de vezes que cada letra aparece na frase
  
