@@ -10,8 +10,11 @@ Nome: Lívia Calado de Carvalho Dias, RA: 10737709
 
 void vetorizarForsyht(){}
 
-void preve....
-.....
+void preveDama(){}
+void preveCavalo(){}
+void preveBispo(){}
+void preveTorre(){}
+void prevePeao(){}
 
 void verificaXeque(){}//chama todas as preves
 
