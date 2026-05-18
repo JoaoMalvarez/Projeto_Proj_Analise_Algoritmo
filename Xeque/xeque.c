@@ -51,9 +51,39 @@ void preveBispo(){}
 void preveTorre(){}
 void prevePeao(){}
 
-void verificaXeque(){}//chama todas as preves
+void imprimirTabuleiro() {
+    printf("\nTabuleiro:\n");
+    printf("  a b c d e f g h\n");
+    for (int i = 0; i < 8; i++) {
+        printf("%d ", 8 - i); // linhas do xadrez: 8 até 1
+        for (int j = 0; j < 8; j++) {
+            printf("%c ", tabuleiro[i][j]);
+        }
+        printf("%d\n", 8 - i);
+    }
+    printf("  a b c d e f g h\n");
+}
 
+bool verificaXeque(char rei) {
+    return preveDama() || preveCavalo() || preveBispo()  || preveTorre()  || prevePeao();
+}
 int main(){
-    //recebe a string e passa para a verifica que chama o forsyth e as preves, ela printa o resultado tbm
+    char forsyth[72];
+    printf("Escreva a notação do tabuleiro em Forsyth: ");
+    scanf("%71s", forsyth);
+
+    vetorizarForsyth(forsyth);
+    imprimirTabuleiro();
+
+    // Verifica xeque para ambos os reis
+    bool xequeBranco = verificaXeque('K'); // rei branco
+    bool xequePreto  = verificaXeque('k'); // rei preto
+
+    // Resposta
+    if(xequeBranco || xequePreto == true) { 
+        printf("TRUE");
+    else { 
+        printf("FALSE");
+        
     return 0;
 }
